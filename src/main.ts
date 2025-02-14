@@ -2,7 +2,6 @@ import { mat4, vec3 } from "gl-matrix";
 import Camera from "./camera";
 import Shader from "./shader";
 import { Color } from "./object3D";
-import getSphere from "./geometry/sphere";
 import getIcosphere from "./geometry/icosphere";
 
 const vertexShaderSource = `#version 300 es
@@ -73,8 +72,7 @@ function main() {
     gl.clearColor(0, 0, 0, 1);
 
     const color: Color = [1.0, 0.0, 1.0, 1.0]; // Example single color
-    //const object3D = getSphere(gl, 0.5, 20, 20, color); // Higher resolution for better wireframe
-    const object3D = getIcosphere(gl, 0.5, 3, color); // Lower resolution for better performance
+    const object3D = getIcosphere(gl, 0.5, 3, color); // Adjust subdivisions for desired resolution
     object3D.setAttributes(shader);
 
     const positions = new Float32Array(object3D.getVertices().flatMap(v => Array.from(v.position)));
@@ -110,12 +108,53 @@ function main() {
     let previousTime = 0;
     const isWireframe = true; // Toggle this to switch between wireframe and solid rendering
 
+    // Keyboard controls
+    window.addEventListener('keydown', (event) => {
+        switch (event.key) {
+            case 'w':
+                camera.moveForward(0.1);
+                break;
+            case 's':
+                camera.moveBackward(0.1);
+                break;
+        }
+    });
+
+    // Mouse controls
+    let isMouseDown = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    canvas.addEventListener('mousedown', (event) => {
+        isMouseDown = true;
+        lastMouseX = event.clientX;
+        lastMouseY = event.clientY;
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isMouseDown = false;
+    });
+
+    canvas.addEventListener('mousemove', (event) => {
+        if (isMouseDown) {
+            const deltaX = event.clientX - lastMouseX;
+            const deltaY = event.clientY - lastMouseY;
+            lastMouseX = event.clientX;
+            lastMouseY = event.clientY;
+
+            camera.rotate(deltaX, deltaY);
+        }
+    });
+
     function render(time: number) {
         if (!gl) {
             return;
         }
         const deltaTime = (time - previousTime) * 0.001; // Calculate delta time in seconds
         previousTime = time;
+
+        // Update camera position
+        camera.update(deltaTime);
 
         // Rotate the object
         const rotationSpeed = 0.0; // Adjust this value to control the rotation speed
