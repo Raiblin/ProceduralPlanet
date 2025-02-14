@@ -103,7 +103,7 @@ function main() {
     shader.setAttribute("a_normal", normalBuffer, 3, gl.FLOAT, false, 0, 0);
 
     // Example camera movements
-    camera.moveForward(4);
+    camera.moveForward(0);
     camera.lookAt(vec3.fromValues(0, 0, 0));
 
     let previousTime = 0;
