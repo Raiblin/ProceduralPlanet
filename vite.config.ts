@@ -2,8 +2,10 @@
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+const basePath = process.env.VERSION ? `/versions/${process.env.VERSION}/` : '/';
+
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/' : '/',
+  base: basePath,
   plugins: [
     viteStaticCopy({
       targets: [
