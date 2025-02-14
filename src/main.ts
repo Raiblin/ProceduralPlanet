@@ -99,7 +99,7 @@ function main() {
     shader.setAttribute("a_color", colorBuffer, 4, gl.FLOAT, false, 0, 0);
     shader.setAttribute("a_normal", normalBuffer, 3, gl.FLOAT, false, 0, 0);
 
-    const camera = new Camera(Math.PI / 4, canvas.width / canvas.height, 0.1, 10.0);
+    const camera = new Camera(Math.PI / 4, canvas.width / canvas.height, 0.001, 10.0);
 
     // Example camera movements
     camera.moveForward(4);
@@ -157,7 +157,7 @@ function main() {
         camera.update(deltaTime);
 
         // Rotate the object
-        const rotationSpeed = 0.0; // Adjust this value to control the rotation speed
+        const rotationSpeed = 0.010; // Adjust this value to control the rotation speed
         object3D.rotate(rotationSpeed * deltaTime, rotationSpeed * deltaTime, rotationSpeed * deltaTime);
 
         const finalMatrix = camera.getFinalMatrix();
