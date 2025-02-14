@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "version:build": "VERSION=$(git rev-parse --short HEAD) vite build",
     "deploy:latest": "gh-pages -d dist",
     "deploy:version": "gh-pages --add -d dist -b gh-pages -m 'Deploy version ${VERSION}' -dest versions/${VERSION}"
