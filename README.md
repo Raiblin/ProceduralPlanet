@@ -12,8 +12,6 @@ Progress can be reviewed at [https://decadeengine.blogspot.com/](https://decadee
 
 The latest version can be found at [https://proceduralplanet.com](https://proceduralplanet.com)
 
-<iframe src="https://proceduralplanet.com" width="640px" height="480px"></iframe>
-
 ## Vite Application
 
 This project uses Vite as the build tool. Vite provides a fast and modern development environment for building web applications.
