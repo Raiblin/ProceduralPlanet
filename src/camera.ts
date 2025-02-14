@@ -28,6 +28,10 @@ class Camera {
         mat4.lookAt(this.viewMatrix, this.position, this.target, this.up);
     }
 
+    updateProjectionMatrix(aspect: number) {
+        mat4.perspective(this.projectionMatrix, Math.PI / 4, aspect, 0.1, 10.0);
+    }
+
     getFinalMatrix(): mat4 {
         const finalMatrix = mat4.create();
         mat4.multiply(finalMatrix, this.projectionMatrix, this.viewMatrix);

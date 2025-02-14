@@ -30,7 +30,7 @@ void main() {
     vec3 lightDir = normalize(vec3(0.0, 1.0, 0.0)); // Light direction
     vec3 normal = normalize(v_normal); // Normalize the normal vector
 
-    float ambientStrength = 0.2; // Ambient light intensity
+    float ambientStrength = 1.0; // Ambient light intensity
     vec3 ambient = v_color.rgb * ambientStrength; // Ambient lighting component
 
     // Compute diffuse lighting using Lambertian reflectance
@@ -54,12 +54,15 @@ function main() {
         return;
     }
 
+    const camera = new Camera(Math.PI / 4, canvas.width / canvas.height, 0.1, 10.0);
+
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         if (gl) {
             gl.viewport(0, 0, canvas.width, canvas.height);
         }
+        camera.updateProjectionMatrix(canvas.width / canvas.height);
     }
 
     window.addEventListener('resize', resizeCanvas);
@@ -99,17 +102,16 @@ function main() {
     shader.setAttribute("a_color", colorBuffer, 4, gl.FLOAT, false, 0, 0);
     shader.setAttribute("a_normal", normalBuffer, 3, gl.FLOAT, false, 0, 0);
 
-    const camera = new Camera(Math.PI / 4, canvas.width / canvas.height, 0.001, 10.0);
-
     // Example camera movements
     camera.moveForward(4);
     camera.lookAt(vec3.fromValues(0, 0, 0));
 
     let previousTime = 0;
-    const isWireframe = true; // Toggle this to switch between wireframe and solid rendering
+    let isWireframe = true; // Toggle this to switch between wireframe and solid rendering
 
     // Keyboard controls
     window.addEventListener('keydown', (event) => {
+        console.log(event.key);
         switch (event.key) {
             case 'w':
                 camera.moveForward(0.1);
@@ -117,6 +119,8 @@ function main() {
             case 's':
                 camera.moveBackward(0.1);
                 break;
+            case 'F1': 
+                isWireframe = !isWireframe;
         }
     });
 
